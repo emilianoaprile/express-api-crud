@@ -1,5 +1,5 @@
 Esercizio
-Iniziamo a creare le API per il nostro blog :occhiali_da_sole:. Iniziate con un nuovo progetto Express + Prisma.
+Iniziamo a creare le API per il nostro blog. Iniziate con un nuovo progetto Express + Prisma.
 
 Definizione degli endpoint:
 POST /posts per creare un nuovo post.
