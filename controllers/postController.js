@@ -32,7 +32,7 @@ const create = async (req, res, next) => {
     }
     try {
         const post = await prisma.post.create({data})
-        res.status(200).send(post)
+        res.status(200).json(post)
     }catch (err) {
         console.log(err)
         next(err)
@@ -77,9 +77,24 @@ const searchPostByContent = async (req, res, next) => {
 
 }
 
+const update = async (req, res, next) => {
+    try {
+        const {slug} = req.params;
+        const post = await prisma.post.update({
+            where: {slug: slug},
+            data: req.body
+        })
+        res.status(200).json(post)
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
+}
+
 module.exports = {
     create,
     index,
     show,
-    searchPostByContent
+    searchPostByContent,
+    update
 }
