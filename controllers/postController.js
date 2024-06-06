@@ -1,6 +1,5 @@
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
-const errorHandler = require('../middlewares/errorHandler.js');
 
 
 const index = async (req, res, next) => {
@@ -32,7 +31,25 @@ const create = async (req, res, next) => {
     }
 }
 
+const show = async (req, res, next) => {
+    try {
+        const {slug} = req.params;
+        const post = await prisma.post.findUnique({
+            where: {slug: slug}
+        })
+        if(post) {
+            res.json(post)
+        } else {
+            throw new Error ('Post non trovato')
+        }
+    }catch (err) {
+        console.log(err)
+        next(err)
+    }
+}
+
 module.exports = {
     create,
-    index
+    index,
+    show
 }
