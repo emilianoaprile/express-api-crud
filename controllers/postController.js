@@ -58,9 +58,12 @@ const show = async (req, res, next) => {
 
 const searchPostByContent = async (req, res, next) => {
     try {
-        const {content} = req.query;
+        const {content, title} = req.query;
         const post = await prisma.post.findMany({
             where: {
+                title: {
+                    contains: title
+                },
                 content: {
                     contains: content
                 }
