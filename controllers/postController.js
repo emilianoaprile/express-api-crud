@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 const index = async (req, res, next) => {
     try {
-        const posts = await prisma.post.findMany()
+        const where = {};
+        const {published, string} = req.query;
+        if(published === 'true') {
+            where.published = true;
+        } else if(published === 'false') {
+            where.published = false;
+        }
+
+        const posts = await prisma.post.findMany({where})
         res.status(200).json(posts)
     }catch (err) {
         console.log(err)
@@ -48,8 +56,27 @@ const show = async (req, res, next) => {
     }
 }
 
+const searchPostByContent = async (req, res, next) => {
+    try {
+        const {content} = req.query;
+        const post = await prisma.post.findMany({
+            where: {
+                content: {
+                    contains: content
+                }
+            }
+        })
+        res.status(200).json(post)
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
+
+}
+
 module.exports = {
     create,
     index,
-    show
+    show,
+    searchPostByContent
 }
