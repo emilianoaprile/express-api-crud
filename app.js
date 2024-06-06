@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const errorHandler = require('./middlewares/errorHandler.js');
+const errorNotFound = require('./middlewares/errorNotfound.js');
 require("dotenv").config();
 const port = process.env.PORT || 3000;
 const postsRouter = require('./routers/postRoutes.js');
@@ -9,6 +11,11 @@ app.use(express.json());
 
 //middleware routes
 app.use('/posts', postsRouter);
+
+// middleware error
+app.use(errorNotFound)
+app.use(errorHandler)
+
 
 app.listen(port, () => {
     console.log(`Server attivo su http://localhost:${port}`);
